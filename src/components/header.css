@@ -41,3 +41,6 @@ span{
     color: black;
     cursor: pointer;
 }
+.workDone{
+    text-decoration: line-through;
+}
