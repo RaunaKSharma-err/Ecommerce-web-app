@@ -69,8 +69,8 @@ const Todolist = ({ value, index, todoWork, setTodoWork }: Props) => {
   let [workCompleted, setWorkComplted] = useState(false);
   return (
     <>
-      <div className="Container">
-        <p className={workCompleted?'workDone':''} onClick={()=>setWorkComplted(!workCompleted)}>
+      <div className={workCompleted?'Container workDone':'Container'} onClick={()=>setWorkComplted(!workCompleted)}>
+        <p>
           {value} <span onClick={Delete}>&times;</span>
         </p>
       </div>

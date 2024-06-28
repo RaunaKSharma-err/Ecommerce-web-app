@@ -34,12 +34,17 @@ form button{
     padding-left: 10px;
     position: relative;
     color: black;
+    cursor: pointer;
 }
 span{
     position: absolute;
     right: 20px;
     color: black;
     cursor: pointer;
+}
+.Container p{
+    font-weight: 600;
+
 }
 .workDone{
     text-decoration: line-through;
