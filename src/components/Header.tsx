@@ -1,79 +1,134 @@
-import { useState } from "react";
+import React,{ useState } from "react";
 import "./header.css";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
 
-interface Props {
-  value: string;
-  index: number;
-  todoWork: string[];
-  setTodoWork: (v: string[]) => void;
-}
 
 const Header = () => {
-  let [todoWork, setTodoWork] = useState<string[]>([]);
-  //to fetch data from the input bar
-  const noSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    let target = event.target as typeof event.target & {
-      todoName: { value: string };
-    };
-    let todoName = target.todoName.value;
-    
-    if (!todoWork.includes(todoName)) {
-      //sees if there is any same todo or not
-      setTodoWork([...todoWork, todoName]);
-      toast.success("ToDo added successfully");
-    } else {
-      toast.error("ToDo already exists");
+  let [uDetails, setUdetails] = useState({
+    uname:'',
+    uemail:'',
+    upassword:'',
+    umessage:'',
+    index:''
+  });
+  let [userData,setUserData]=useState<{uname:string,uemail:string,upassword:string,umessage:string}[]>([]);
+  const getValue=(e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    let oldValue = {...uDetails};
+    let inputName = e.target.name;
+    let inputValue = e.target.value;
+    setUdetails({...oldValue,[inputName]:inputValue})
+  }
+  
+  
+  const Submit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();     
+    let oldUserFormData = {uname:uDetails.uname,uemail:uDetails.uemail,upassword:uDetails.upassword,umessage:uDetails.umessage};
+    let userInputValidation = userData.filter((v)=> v.uemail == uDetails.uemail || v.uname == uDetails.uname)
+    if (userInputValidation.length == 1){
+      alert('Email or Name Already exists..')
+    }else{
+      let finalData = [...userData,oldUserFormData];
+      setUserData(finalData);
+      setUdetails({
+        uname:'',
+        uemail:'',
+        upassword:'',
+        umessage:'',
+        index:''
+      })
     }
   };
-  let list = todoWork.map((value, i) => {
-    //display the data to the user interface
-    return (
-      <Todolist
-        value={value}
-        key={i}
-        index={i}
-        todoWork={todoWork}
-        setTodoWork={setTodoWork}
-        />
-      );
-    });
-    return (
-      <>
-      <div className="App">
-        <ToastContainer />
-        <h1 className="text-3xl font-bold mb-16 mt-4 text-center">TODO LIST</h1>
-        <form onSubmit={noSubmit}>
-          <input
-            type="text"
-            name="todoName"
-            placeholder="Write your text...."
-          />
-          <button className="btn">Save</button>
-        </form>
-        {list}
-      </div>
-    </>
-  );
-};
-export default Header;
 
-const Todolist = ({ value, index, todoWork, setTodoWork }: Props) => {
-  const Delete = () => {
-    let finalData = todoWork.filter((v, i) => i != index); // it filter the data clicked and shows all data except the index data which is clicked
-    setTodoWork(finalData);
-  };
-  let [workCompleted, setWorkComplted] = useState(false);
+    const deleteRow = (indexNum:number) =>{
+      let remainingRows = userData.filter((v,i)=>i!= indexNum)
+      setUserData(remainingRows);
+    }
+
+    const editRow=(indexNum:number)=>{
+      let updatedRow = userData.filter((v,i)=>i==indexNum)[0];
+       updatedRow['index'] = indexNum;
+       setUdetails(updatedRow);
+       
+    }
+
   return (
     <>
-      <div className={workCompleted?'Container workDone':'Container'} onClick={()=>setWorkComplted(!workCompleted)}>
-        <p>
-          {value} <span onClick={Delete}>&times;</span>
-        </p>
+      <div className="App">
+        <div className="Container">
+          <form onSubmit={Submit}>
+            <label>UserName</label>
+            <input
+              type="text"
+              placeholder="Name"
+              onChange={getValue}
+              className="form-control"
+              name='uname'
+              value={uDetails.uname}
+            />
+            <label>Email</label>
+            <input
+              onChange={getValue}
+              type="email"
+              placeholder="password"
+              className="form-control"
+              name='uemail'
+              value={uDetails.uemail}
+            />
+            <label>Password</label>
+            <input
+              onChange={getValue}
+              type="text"
+              placeholder="password"
+              className="form-control"
+              name='upassword'
+              value={uDetails.upassword}
+            />
+            <label>text</label>
+            <textarea
+              onChange={getValue}
+              className="form-control"
+              placeholder="text"
+              name='umessage'
+              value={uDetails.umessage}
+            />
+            <button className="btn">{uDetails.index!== ''?'Update':'Save'}</button>
+          </form>
+        </div>
       </div>
+      <div className="overflow-x-auto mb-16 mt-7">
+  <table className="table table-xs table-pin-rows table-pin-cols">
+    <thead>
+      <tr>
+        <th></th>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Password</td>
+        <td>message</td>
+        <td>Action</td>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {userData.length >= 1?
+      userData.map((object,index)=>{
+      return(
+      <tr key={index}>
+        <th>{index+1}</th>
+        <td>{object.uname}</td>
+        <td>{object.uemail}</td>
+        <td>{object.upassword}</td>
+        <td>{object.umessage}</td>
+        <button className="btn" onClick={()=>editRow(index)}>Update</button>
+        <button className="btn" onClick={()=>deleteRow(index)}>Delete</button>
+      </tr>
+      )})
+      :
+      <tr><th>No data found..!</th></tr>
+      }
+    </tbody>
+  </table>
+</div>
     </>
   );
 };
+
+export default Header;
