@@ -1,6 +1,13 @@
 import React,{ useState } from "react";
 import "./header.css";
 
+interface Props{
+  uname:string;
+  uemail:string;
+  upassword:string;
+  umessage:string;
+  index?:number;
+}
 
 const Header = () => {
   let [uDetails, setUdetails] = useState({
@@ -44,7 +51,7 @@ const Header = () => {
     }
 
     const editRow=(indexNum:number)=>{
-      let updatedRow = userData.filter((v,i)=>i==indexNum)[0];
+      let updatedRow = userData.filter((v,i)=>i==indexNum)[0] as Props;
        updatedRow['index'] = indexNum;
        setUdetails(updatedRow);
        
@@ -85,7 +92,7 @@ const Header = () => {
             <label>text</label>
             <textarea
               onChange={getValue}
-              className="form-control"
+              className="form-control pl-3 pt-5"
               placeholder="text"
               name='umessage'
               value={uDetails.umessage}
