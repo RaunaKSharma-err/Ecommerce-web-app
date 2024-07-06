@@ -13,10 +13,10 @@ interface Props {
 export default function Products({ product }: Props) {
   let finalproduct = product.map((v, i) => {
     return (
-      <div key={i} className="product-items w-[100%]">
+      <div key={i} className="product-items">
         <div className="card bg-base-100 w-86 shadow-xl">
           <figure>
-            <img src={v.image} />
+            <img src={v.image} className=" width-[100%] height-[10px]"/>
           </figure>
           <div className="card-body">
             <h2 className="card-title">

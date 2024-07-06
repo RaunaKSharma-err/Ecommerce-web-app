@@ -3,13 +3,12 @@ import './App.css'
 
 interface Props{
     cat:(string[]);
-    setGetCat:(v:string)=>void;
+    setGetCatName:(v:string)=>void;
 }
-export default function Sidebar({cat , setGetCat}:Props) {
-    let catItems = cat.map((v,i)=>{  
-      console.log(v);
+export default function Sidebar({cat , setGetCatName}:Props) {
+    let catItems = cat.map((v,i)=>{
         return(      
-    <button className="btn" key={i} onClick={()=>setGetCat(v)}>{v}</button>
+    <button className="btn" key={i} onClick={()=>setGetCatName(v)}>{v}</button>
     )})
   return (
   <>

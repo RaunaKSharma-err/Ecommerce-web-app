@@ -4,14 +4,14 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Sidebar from "./sidebar";
 import Products from "./Products";
+import { toast } from "react-toastify";
 
 
 
 function App() {
   const [cat, setCat] = useState<[]>([]);
   const [product, setProduct] = useState<[]>([]);
-  const [getCat, setGetCat] = useState('');
-  console.log(getCat);
+  const [getCatName, setGetCatName] = useState('');
   
 
   const getCatogories = () => {
@@ -30,26 +30,27 @@ function App() {
       });
   };
 
-  const getProductsCat = () => {
-    axios.get(`https://fakestoreapi.com/products/category/${getCat}`)
-      .then((res) => res.data)
-      .then((finalcatogory) => {
-        console.log(finalcatogory);
-        
-        setProduct(finalcatogory);
-      });
-  };
-
   useEffect(() => {
     getCatogories();
     getProducts();
-    getProductsCat();
   }, []);
+
+useEffect(()=>{
+  if(getCatName!== '')
+  axios.get(`https://fakestoreapi.com/products/category/${getCatName}`)
+      .then((res) => res.data)
+      .then((finalcatogory) => {
+        setProduct(finalcatogory);
+      });
+      else{
+        toast.error('No data found...!')
+      }
+},[getCatName])
 
   return (
     <>
       <div className="App">
-        <Sidebar setGetCat={setGetCat} cat={cat} />
+        <Sidebar setGetCatName={setGetCatName} cat={cat} />
         <Products product={product} />
       </div>
     </>
