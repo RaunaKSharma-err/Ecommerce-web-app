@@ -1,60 +1,73 @@
-import { useEffect, useState } from "react";
 import "./App.css";
-import "react-toastify/dist/ReactToastify.css";
+import Product from "./components/product";
+import Header from "./components/header";
+import Home from "./pages/home";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import Sidebar from "./sidebar";
-import Products from "./Products";
 import { toast } from "react-toastify";
 
+export default function App() {
+  const [getProducts, setGetProducts] = useState<[]>([]);
+  const [getCategory, setGetCategory] = useState<[]>([]);
+  const [getCatName , setGetCatName] = useState('');
+  const [isLoading , setIsLoading] = useState(false);
 
-
-function App() {
-  const [cat, setCat] = useState<[]>([]);
-  const [product, setProduct] = useState<[]>([]);
-  const [getCatName, setGetCatName] = useState('');
-  
-
-  const getCatogories = () => {
-    axios.get("https://fakestoreapi.com/products/categories")
-      .then((res) => res.data)
-      .then((finalRes) => {
-        setCat(finalRes);
-      });
-  };
-
-  const getProducts = () => {
+  const getProduct = () => {
+    setIsLoading(true)
     axios.get("https://fakestoreapi.com/products")
       .then((res) => res.data)
       .then((finalproduct) => {
-        setProduct(finalproduct);
+        setGetProducts(finalproduct);
       });
+      setIsLoading(false);
   };
 
-  useEffect(() => {
-    getCatogories();
-    getProducts();
-  }, []);
-
-useEffect(()=>{
-  if(getCatName!== '')
-  axios.get(`https://fakestoreapi.com/products/category/${getCatName}`)
+  const getProductCategory = () => {
+    setIsLoading(true)
+    axios.get("https://fakestoreapi.com/products/categories")
       .then((res) => res.data)
-      .then((finalcatogory) => {
-        setProduct(finalcatogory);
+      .then((finalProductCategries) => {
+        setGetCategory(finalProductCategries);
       });
-      else{
-        toast.error('No data found...!')
+      setIsLoading(false)
+  };
+    useEffect(()=>{
+      if (getCatName!=='') {
+        setIsLoading(true)
+      axios.get(`https://fakestoreapi.com/products/category/${getCatName}`)
+      .then((res)=>res.data)
+      .then((finalRes)=>{
+      setGetProducts(finalRes)
+      setIsLoading(false)
+      })
       }
-},[getCatName])
+      else{
+        toast.error("No Data Found....")
+      }
+    },[getCatName])
+
+  useEffect(() => {
+    getProduct();
+    getProductCategory();
+  }, []);
 
   return (
     <>
       <div className="App">
-        <Sidebar setGetCatName={setGetCatName} cat={cat} />
-        <Products product={product} />
+        <div className="mockup-phone">
+          <div className="camera"></div>
+          <div className="display">
+            <div className="artboard artboard-demo phone-1 bg-white">
+              <Header getCategory={getCategory} setGetCatName={setGetCatName}/>
+              <Home />
+              <div className="productsDisplay">
+              <span className={`loading loading-spinner text-error absolute top-24 left-36 ${isLoading?'':'hidden'}`}></span>
+                <Product getProducts={getProducts} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
 }
-
-export default App;
