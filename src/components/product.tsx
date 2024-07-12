@@ -1,14 +1,18 @@
 import React from 'react'
 import '/src/App.css'
+import { useContext } from 'react';
+import { Getproduct } from '../App';
+
 interface Props{
   title:string;
   image:string;
 }
-interface productProps{
-  getProducts:Props[]
-}
-export default function Product({getProducts}:productProps) {
-  let pItems = getProducts.map((v,i)=>{
+export default function Product() {
+
+  const GetFinalProduct = useContext(Getproduct);
+
+  let pItems = GetFinalProduct?.map((v:Props,i)=>{
+    
    return (
     <div className="products" key={i}>
     <div className="product-img">

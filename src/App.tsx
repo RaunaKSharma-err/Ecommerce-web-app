@@ -1,16 +1,22 @@
 import "./App.css";
 import Product from "./components/product";
 import Header from "./components/header";
-import Home from "./pages/home";
-import { useEffect, useState } from "react";
+import { createContext,useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Hero from "./components/hero-sec";
+
+export const Getproduct = createContext<[] | undefined>([]);
+export const GetCategoryName = createContext<string[] | undefined>(undefined)
+
 
 export default function App() {
   const [getProducts, setGetProducts] = useState<[]>([]);
   const [getCategory, setGetCategory] = useState<[]>([]);
   const [getCatName , setGetCatName] = useState('');
   const [isLoading , setIsLoading] = useState(false);
+
+
 
   const getProduct = () => {
     setIsLoading(true)
@@ -58,11 +64,15 @@ export default function App() {
           <div className="camera"></div>
           <div className="display">
             <div className="artboard artboard-demo phone-1 bg-white">
-              <Header getCategory={getCategory} setGetCatName={setGetCatName}/>
-              <Home />
+              <GetCategoryName.Provider value={{setGetCatName}}>
+              <Header setGetCatName={setGetCatName}/>
+              </GetCategoryName.Provider>
+              <Hero/>
               <div className="productsDisplay">
               <span className={`loading loading-spinner text-error absolute top-24 left-36 ${isLoading?'':'hidden'}`}></span>
-                <Product getProducts={getProducts} />
+              <Getproduct.Provider value={getProducts}>
+                <Product/>
+              </Getproduct.Provider>
               </div>
             </div>
           </div>
@@ -71,3 +81,4 @@ export default function App() {
     </>
   );
 }
+
