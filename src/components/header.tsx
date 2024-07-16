@@ -1,14 +1,20 @@
 import { Link } from 'react-router-dom';
 import { useCategoryContext } from '../context/categoryProvider';
+import { useContext } from 'react';
+import { GetCategoryName } from '../App';
 
-interface GetCatProps{
-  setGetCatName:(categoryName:string)=>void;
+interface Props{
+  getCatName?:(v:string)=>void;
 }
-export default function Header({setGetCatName}:GetCatProps) {
+
+export default function Header({getCatName}:Props) {
+  const GetCatName = useContext(GetCategoryName);
   const allCategories = useCategoryContext();
   let CatName = allCategories?.map((v,i)=>{
     return(
-      <li key={i}><a onClick={()=>setGetCatName(v)}>{v}</a></li>
+      <li key={i}><a onClick={()=>{
+        if(getCatName!=undefined){
+        getCatName(v)}}}>{v}</a></li>
   )})
   return (
     <div className="navbar bg-base-100 z-10">

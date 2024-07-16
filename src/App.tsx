@@ -6,8 +6,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Hero from "./components/hero-sec";
 
+interface Props{
+  setGetCatName:(v:string)=>void;
+}
+
 export const Getproduct = createContext<[] | undefined>([]);
-export const GetCategoryName = createContext<string[] | undefined>(undefined)
+export const GetCategoryName = createContext<Props | undefined>(undefined)
 
 
 export default function App() {
@@ -15,8 +19,6 @@ export default function App() {
   const [getCategory, setGetCategory] = useState<[]>([]);
   const [getCatName , setGetCatName] = useState('');
   const [isLoading , setIsLoading] = useState(false);
-
-
 
   const getProduct = () => {
     setIsLoading(true)
@@ -65,7 +67,7 @@ export default function App() {
           <div className="display">
             <div className="artboard artboard-demo phone-1 bg-white">
               <GetCategoryName.Provider value={{setGetCatName}}>
-              <Header setGetCatName={setGetCatName}/>
+              <Header getCatName={(v:string)=>setGetCatName(v)}/>
               </GetCategoryName.Provider>
               <Hero/>
               <div className="productsDisplay">

@@ -126,3 +126,120 @@
     width: 80%;
     margin-left: 10px;
 }
+.cart-sec{
+    width: 100%;
+    position: absolute;
+    top: 77px;
+}
+.cart-sec h3{
+    border-top: 1px solid rgba(184, 184, 184, 0.5);
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+    color: rgb(255, 115, 0);
+}
+.display-items{
+    width: 100%;
+    height: 300px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: scroll;
+}
+.items img{
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+.cart-content{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    gap: 3px;
+}
+.cart-content .name{
+    font-weight: bold;
+    color: black;
+}
+.cart-content .description{
+    color: grey;
+    font-size: 10px;
+    width: 150px;
+    height: 30px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.cart-content .price{
+    color: orange;
+    font-weight: 500;
+    font-size: 13px;
+}
+.item-details{
+    display: flex;
+    justify-content: space-evenly;
+}
+.items{
+    position: relative;
+    display: flex;
+    height: 95px;
+    width: 97%;
+    border: 1px solid rgba(209, 209, 209, 0.603);
+    margin: 5px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 0.7px black;
+    padding: 7px;
+}
+.quantity-sec{
+    position: absolute;
+    right: 8px;
+    top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+.quantity-sec p{
+    font-size: 13px;
+    color: rgb(88, 88, 88);
+}
+.quantity-sec button{
+    width: 20px;
+    min-height: 1.3rem;
+    font-size: 15px;
+    color: white;
+}
+.amount-sec{
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    z-index: 100;
+    background-color: #fff;
+    padding-top: 10px;
+    box-shadow: 0px 0px 8px rgba(199, 198, 198, 0.801);
+}
+.total-amount , .discount{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.final-amt{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.net-amount button{
+    width: 80%;
+    margin-left: 10%;
+}
+.total-amount{
+    font-size: 13px;
+}
+.discount-amt{
+    font-size: 13px;
+}
+.net-amount{
+    border-top: 1px solid rgba(247, 177, 49, 0.5);
+    margin-top: 5px;
+}
