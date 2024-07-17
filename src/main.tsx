@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Cart from "./pages/cart-page.tsx";
 import { CategoryProvider } from "./context/categoryProvider.tsx";
 import { ProductIdProvider } from "./context/productIdProvider.tsx";
+import { ProductNumProvider } from "./context/productNumProvider.tsx";
 
 let ReactRoot = ReactDOM.createRoot(document.getElementById("root")!);
 
@@ -21,11 +22,13 @@ let allRoutes = createBrowserRouter([
 ]);
 
 ReactRoot.render(
-  <React.StrictMode>
-    <ProductIdProvider>
-      <CategoryProvider>
-        <RouterProvider router={allRoutes} />
-      </CategoryProvider>
-    </ProductIdProvider>
-  </React.StrictMode>
+  
+    <ProductNumProvider>
+      <ProductIdProvider>
+        <CategoryProvider>
+          <RouterProvider router={allRoutes} />
+        </CategoryProvider>
+      </ProductIdProvider>
+    </ProductNumProvider>
+  
 );

@@ -32,7 +32,9 @@ export default function Product() {
           <h3>{v.title}</h3>
         </div>
         <div className="buy-button">
-          <button className="btn" onClick={()=>setProductsId(v.id)}>Add to Cart</button>
+          <button className="btn" onClick={() => setProductsId(v.id)}>
+            Add to Cart
+          </button>
         </div>
       </div>
     );
