@@ -9,6 +9,7 @@ import { useCookies } from "react-cookie";
 interface ContextProps {
   productsId: number[];
   setProductsId: (id: number) => void;
+  cookie:any;
 }
 
 interface Props {
@@ -26,13 +27,21 @@ export const ProductIdProvider: React.FC<Props> = ({ children }) => {
 
   const setProductsId = (id: number) => {
     setProductId((prevIds) => [...prevIds, id]);
-  };
-  useEffect(() => {
-    setCookie("cart", cookie.ids.length);
     setCookie("ids", productsId);
-  }, [productsId]);
+  };
+  // useEffect(() => {
+  //   if (cookie.ids != undefined) {
+  //     setCookie("cart", cookie.ids.length);
+  //     setCookie("ids", productsId);
+  //   }
+  // }, [productsId]);
+  useEffect(()=>{
+    // setProductId(cookie.ids);
+    console.log(cookie.ids);
+    
+  },[cookie.ids])
   return (
-    <ProductIdContext.Provider value={{ productsId, setProductsId }}>
+    <ProductIdContext.Provider value={{ cookie , productsId , setProductsId }}>
       {children}
     </ProductIdContext.Provider>
   );
