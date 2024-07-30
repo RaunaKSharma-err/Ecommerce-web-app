@@ -7,6 +7,7 @@ import Cart from "./pages/cart-page.tsx";
 import { CategoryProvider } from "./context/categoryProvider.tsx";
 import { ProductIdProvider } from "./context/productIdProvider.tsx";
 import { ProductNumProvider } from "./context/productNumProvider.tsx";
+import Footer from "./components/footer .tsx";
 
 let ReactRoot = ReactDOM.createRoot(document.getElementById("root")!);
 
@@ -18,6 +19,10 @@ let allRoutes = createBrowserRouter([
   {
     path: "cart",
     element: <Cart />,
+  },
+  {
+    path: "About",
+    element: <Footer/>,
   },
 ]);
 

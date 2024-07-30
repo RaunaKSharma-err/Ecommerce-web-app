@@ -9,7 +9,7 @@ import { useCookies } from "react-cookie";
 interface ContextProps {
   productsId: number[];
   setProductsId: (id: number) => void;
-  cookie:any;
+  cookie: any;
 }
 
 interface Props {
@@ -21,27 +21,21 @@ export const ProductIdContext = createContext<ContextProps | undefined>(
 );
 
 export const ProductIdProvider: React.FC<Props> = ({ children }) => {
-  const [cookie, setCookie, removeCookie] = useCookies(["cart", "ids"]);
+  const [cookie, setCookie] = useCookies(["cart", "ids"]);
 
   const [productsId, setProductId] = useState<number[]>([]);
 
   const setProductsId = (id: number) => {
-    setProductId((prevIds) => [...prevIds, id]);
-    setCookie("ids", productsId);
+    // setProductId((prevIds) => [...prevIds, id]);
+    if (cookie.ids instanceof Array) {
+      setCookie("ids", [...cookie.ids, id]);
+      return;
+    }
+    setCookie("ids", [id]);
   };
-  // useEffect(() => {
-  //   if (cookie.ids != undefined) {
-  //     setCookie("cart", cookie.ids.length);
-  //     setCookie("ids", productsId);
-  //   }
-  // }, [productsId]);
-  useEffect(()=>{
-    // setProductId(cookie.ids);
-    console.log(cookie.ids);
-    
-  },[cookie.ids])
+
   return (
-    <ProductIdContext.Provider value={{ cookie , productsId , setProductsId }}>
+    <ProductIdContext.Provider value={{ cookie, productsId, setProductsId }}>
       {children}
     </ProductIdContext.Provider>
   );

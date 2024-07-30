@@ -1,16 +1,28 @@
 import { Link } from "react-router-dom";
 import { useCategoryContext } from "../context/categoryProvider";
 import { useProductNumContext } from "../context/productNumProvider";
-import { useProductIdContext } from "../context/productIdProvider";
 import { useCookies } from "react-cookie";
 
 interface Props {
   getCatName?: (v: string) => void;
 }
 
+const CartNumber: React.FC = () => {
+  const [cookie, setCookie] = useCookies(["ids"]);
+  if (cookie.ids instanceof Array) {
+    return (
+      <>
+        <span className={"badge badge-sm indicator-item bg-red-600"}>
+          {cookie.ids.length}
+        </span>
+      </>
+    );
+  }
+  return <></>;
+};
+
 export default function Header({ getCatName }: Props) {
   const { productsNum } = useProductNumContext();
-  const [cookie, setCookie] = useCookies(["cart"]);
   const allCategories = useCategoryContext();
   let CatName = allCategories?.map((v, i) => {
     return (
@@ -27,6 +39,7 @@ export default function Header({ getCatName }: Props) {
       </li>
     );
   });
+
   return (
     <div className="navbar bg-base-100 z-10">
       <div className="navbar-start">
@@ -52,11 +65,15 @@ export default function Header({ getCatName }: Props) {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow text-white"
           >
             <li>
-              <a>Home</a>
+              <Link to={"/"}>
+                <a>Home</a>
+              </Link>
             </li>
             {CatName}
             <li>
-              <a>About Us</a>
+              <Link to={"/About"}>
+                <a>About Us</a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -82,11 +99,7 @@ export default function Header({ getCatName }: Props) {
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
-              {cookie.cart !== 0 && (
-                <span className={(cookie.cart!==0)?"badge badge-sm indicator-item bg-red-600":"hidden"}>
-                  {cookie.cart}
-                </span>
-              )}
+              <CartNumber />
             </div>
           </div>
           <div
@@ -114,10 +127,10 @@ export default function Header({ getCatName }: Props) {
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className="w-7 rounded-full">
+            <div className="w-7 rounded-full object-cover">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                src="/78ba53ab-c07c-4834-9141-e2d78b7751ed.jpg"
               />
             </div>
           </div>

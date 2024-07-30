@@ -12,7 +12,7 @@ interface Props {
 export const ProductNumContext = createContext<ContextProps | undefined>(undefined);
 
 export const ProductNumProvider: React.FC<Props> = ({ children }) => {
-  const [productsNum, setProductNum] = useState<number|undefined>(undefined);
+  const [productsNum, setProductNum] = useState<number|undefined>(1);
   
 
   const setProductsNum = (id: number) => {
@@ -29,7 +29,7 @@ export const ProductNumProvider: React.FC<Props> = ({ children }) => {
 export const useProductNumContext = () => {
   const context = useContext(ProductNumContext);
   if (!context) {
-    throw new Error("useProductIdContext must be used within a ProductIdProvider");
+    throw new Error("useProductNumContext must be used within a ProductIdProvider");
   }
   return context;
 };

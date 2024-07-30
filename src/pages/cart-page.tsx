@@ -1,9 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/header";
 import axios from "axios";
 import { useProductIdContext } from "../context/productIdProvider";
 import { useProductNumContext } from "../context/productNumProvider";
 import { useCookies } from "react-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Props {
   name: string;
@@ -13,33 +15,38 @@ interface Props {
 }
 
 export default function Cart() {
-  const { productsId } = useProductIdContext();
+  const [cookie, setCookie] = useCookies(["products", "ids"]);
+  let { productsId, setProductsId } = useProductIdContext();
   const { setProductsNum } = useProductNumContext();
   const [getProductById, setGetProductById] = useState<Props[]>([]);
-  const [cookie, setCookie] = useCookies(["products"]);
+
   const GetProductWithID = () => {
-    productsId.map((v) => {
-      return axios
-        .get(`https://fakestoreapi.com/products/${v}`)
-        .then((finalres) => {
-          console.log(finalres.data);
-          setGetProductById((prevResponse) => [...prevResponse, finalres.data]);
-        });
-    });
-    setCookie("products", getProductById);
+    if (cookie.ids instanceof Array) {
+      cookie.ids.map((v) => {
+        return axios
+          .get(`https://fakestoreapi.com/products/${v}`)
+          .then((finalres) => {
+            setGetProductById((prevResponse) => [
+              ...prevResponse,
+              finalres.data,
+            ]);
+          });
+      });
+      setCookie("products", getProductById);
+    }
   };
 
   useEffect(() => {
-    if (productsId.length) {
-      GetProductWithID();
-    }
+    GetProductWithID();
   }, [productsId]);
 
   useEffect(() => {
     setProductsNum(productsId.length);
   }, [productsId]);
 
+  let FinalPrice: number = 0;
   let ProductItem = getProductById?.map((v, i) => {
+    FinalPrice = FinalPrice + v.price;
     return (
       <div className="items" key={i}>
         <div className="item-details">
@@ -75,7 +82,7 @@ export default function Cart() {
                 <div className="amount pl-2 pr-2">
                   <div className="total-amount">
                     <p className="text-black">Total Amount</p>
-                    <p className="text-orange-500 ">Rs 1500</p>
+                    <p className="text-orange-500 ">Rs {FinalPrice}</p>
                   </div>
                   <div className="discount">
                     <p className="text-black discount-amt">Discount</p>
@@ -88,10 +95,13 @@ export default function Cart() {
                       Final Amount
                     </p>
                     <p className="text-orange-500 pb-4 pr-1 font-bold">
-                      Rs 1500
+                      Rs {FinalPrice}
                     </p>
                   </div>
-                  <button className="btn btn-warning mb-2 text-white">
+                  <button
+                    onClick={() => toast.success("Your Order has been placed")}
+                    className="btn btn-warning mb-2 text-white"
+                  >
                     Proceed to payment
                   </button>
                 </div>
@@ -100,6 +110,7 @@ export default function Cart() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 }
