@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
@@ -22,18 +21,16 @@ let allRoutes = createBrowserRouter([
   },
   {
     path: "About",
-    element: <Footer/>,
+    element: <Footer />,
   },
 ]);
 
 ReactRoot.render(
-  
-    <ProductNumProvider>
-      <ProductIdProvider>
-        <CategoryProvider>
-          <RouterProvider router={allRoutes} />
-        </CategoryProvider>
-      </ProductIdProvider>
-    </ProductNumProvider>
-  
+  <ProductNumProvider>
+    <ProductIdProvider>
+      <CategoryProvider>
+        <RouterProvider router={allRoutes} />
+      </CategoryProvider>
+    </ProductIdProvider>
+  </ProductNumProvider>
 );
