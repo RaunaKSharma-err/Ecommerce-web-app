@@ -16,7 +16,7 @@ interface Props {
 
 export default function Cart() {
   const [cookie, setCookie] = useCookies(["products", "ids"]);
-  let { productsId, setProductsId } = useProductIdContext();
+  let { productsId } = useProductIdContext();
   const { setProductsNum } = useProductNumContext();
   const [getProductById, setGetProductById] = useState<Props[]>([]);
 

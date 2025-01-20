@@ -8,7 +8,7 @@ interface Props {
 }
 
 const CartNumber: React.FC = () => {
-  const [cookie, setCookie] = useCookies(["ids"]);
+  const [cookie] = useCookies(["ids"]);
   if (cookie.ids instanceof Array) {
     return (
       <>
@@ -79,7 +79,9 @@ export default function Header({ getCatName }: Props) {
         </div>
       </div>
       <div className="navbar-center">
-        <a className="btn btn-ghost text-xl text-orange-500">YO-Chaiyo</a>
+        <Link to={"/"}>
+          <a className="btn btn-ghost text-xl text-orange-500">YO-Chaiyo</a>
+        </Link>
       </div>
       <div className="navbarEnd">
         <div className="dropdown dropdown-end">

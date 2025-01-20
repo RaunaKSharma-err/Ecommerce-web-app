@@ -3,7 +3,6 @@ import {
   useContext,
   useState,
   ReactNode,
-  useEffect,
 } from "react";
 import { useCookies } from "react-cookie";
 interface ContextProps {
@@ -23,7 +22,7 @@ export const ProductIdContext = createContext<ContextProps | undefined>(
 export const ProductIdProvider: React.FC<Props> = ({ children }) => {
   const [cookie, setCookie] = useCookies(["cart", "ids"]);
 
-  const [productsId, setProductId] = useState<number[]>([]);
+  const [productsId] = useState<number[]>([]);
 
   const setProductsId = (id: number) => {
     // setProductId((prevIds) => [...prevIds, id]);
